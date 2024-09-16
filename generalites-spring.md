@@ -1,6 +1,16 @@
 
 # Spring
 
+- Dernière version de Spring Boot : 3.3.3
+- Dernière version de Java : 22
+- Pour traiter des données : Spring Data ou JPA
+- Différence entre tests unitaires et d'intégrations
+- 
+
+## Créer un projet Spring rapidement
+
+- Pour initialiser un projet [rapidement](https://start.spring.io/ )
+
 ## Framework Spring
 
 - Repose sur un conteneur IoC (Inversion of control) qui assure la gestion du cycle de vie des beans et l'injection de dépendance
