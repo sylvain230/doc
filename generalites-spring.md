@@ -5,7 +5,6 @@
 - Dernière version de Java : 22
 - Pour traiter des données : Spring Data ou JPA
 - Différence entre tests unitaires et d'intégrations
-- 
 
 ## Créer un projet Spring rapidement
 
