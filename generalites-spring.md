@@ -26,6 +26,25 @@ Elle consiste à injecter dynamiquement les dépendances pour différentes class
 - Code propre, lisible, faiblement couplés.
 - Il est plus réutilisable et peut être utilisé dans un contexte différent.
 
+## Hibernate vs JPA vs Spring Data
+
+- Hibernate est un framework. C'est une implémentation de JPA
+- Java Persistence API est une norme
+- Spring Data est une abstraction d'accès aux données JPA
+- Il existe aussi Spring JDBC. On peut faire des preparedStatement pour empêcher les injections SQL. (faille de sécurité très connue)
+
+## Scope
+
+@Singleton est le scope par défaut dans Spring. Une seule instance de l'objet est créée et réutilisée.
+@Prototype => Différentes instances sont créées à chaque appel du bean.
+@Request
+@Session
+
+## Spring boot
+
+- C'est un framework de dév. Java, une déclinaison du framework Spring classique qui permet essentiellement de faire des micro services.
+Avantages => Optimisation de la gestion des dépendances, auto-configuration avec @SpringBootApplication, gestion des properties et déploiement facile
+
 ## Annotation pour injecter une dépendance
 Il existe 4 types d’injections de dépendances :
 - injection par constructeur ;
