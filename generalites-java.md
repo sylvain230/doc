@@ -19,7 +19,7 @@
 
 ### Java 10
 
-- Inférence de type => Utilisation de ar afin de gagner en lisiblité
+- Inférence de type => Utilisation de var afin de gagner en lisiblité
 
 ### Java 11
 
@@ -81,7 +81,7 @@ L'opération reduce() applique de manière répétée une opération sur chacun 
 
 ## Méthode collect()
 
-L'opération collect') est une opération terminale qui permet de réaliser une aggrégation de mutable des éléments.
+L'opération collect() est une opération terminale qui permet de réaliser une aggrégation de mutable des éléments.
 
 ## Méthode flatMap()
 
