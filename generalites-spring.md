@@ -45,15 +45,43 @@
 
 - C'est un framework de dév. Java, une déclinaison du framework Spring classique qui permet essentiellement de faire des micro services.
 Avantages => Optimisation de la gestion des dépendances, auto-configuration avec @SpringBootApplication, gestion des properties et déploiement facile
+Le serveur est fourni
 
 ## Annotation pour injecter une dépendance
 Il existe 4 types d’injections de dépendances :
 - injection par constructeur ;
+
+  ```
+      @Autowired
+    public Car(Engine engine, Transmission transmission) {
+        this.engine = engine;
+        this.transmission = transmission;
+    }
+  ```
+  
 - injection par interface ;
+```
+  public class ProductService {
+
+   @Autowired
+   private ProductRepository productRepository;
+
+}
+```
 - injection par mutateur ;
+```
+public class ProductService {
+   private ProductRepository productRepository;
+  
+   @Autowired
+   public void setProductRepository(ProductRepository productRepository) {
+      this.productRepository = productRepository;
+   }
+}
+```
 - injection par champs.
 
-## Asynchronisme en Spring  @Sync pour gérer l'asynchronysme.
+## Asynchronisme en Spring @Sync pour gérer l'asynchronysme.
 
 Il faut faire attention aux proxy lors de l'utilisation de @Sync
 Hibernate vs JPA vs Spring data    Hibernate est un framework. C'est une implémentation JPA.
