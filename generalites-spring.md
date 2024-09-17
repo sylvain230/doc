@@ -17,8 +17,10 @@
 
 ## Types d'injection de dépendance
 
-- Mécanisme qui permet d'implémenter le principe d'inversion of control.  Il consiste à créer dynamiquement (injecter) les dépendances entre les différentes classes en s’appuyant sur une description (fichier de configuration ou métadonnées) ou de manière programmatique. Ainsi les dépendances entre composants logiciels ne sont plus exprimées dans le code de manière statique mais déterminées dynamiquement à l’exécution.
-Elle consiste à injecter dynamiquement les dépendances pour différentes classes en s’appuyant sur un ou plusieurs modules. Ainsi, les dépendances entre des classes d’implémentation et une interface ne sont plus exprimées dans le code de manière statique mais déterminées dynamiquement.
+- Mécanisme qui permet d'implémenter le principe d'inversion of control.
+- Il consiste à créer dynamiquement (injecter) les dépendances entre les différentes classes en s’appuyant sur une description (fichier de configuration ou métadonnées) ou de manière programmatique.
+- Ainsi les dépendances entre composants logiciels ne sont plus exprimées dans le code de manière statique mais déterminées dynamiquement à l’exécution.
+- Elle consiste à injecter dynamiquement les dépendances pour différentes classes en s’appuyant sur un ou plusieurs modules. Ainsi, les dépendances entre des classes d’implémentation et une interface ne sont plus exprimées dans le code de manière statique mais déterminées dynamiquement.
 
 ## Asynchronisme en Spring
 
