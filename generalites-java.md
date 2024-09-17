@@ -2,23 +2,27 @@
 
 ## Généralités
 
-### Java 8 :
+### Java 8
+
 - Lambdas expressions
 - streams (map, reduce)
 - Référence de méthode => Faire référence à une méthode d'une interface fonctionnelle
 - Interface optinnelle => Interface qui ne contient qu'une seule méthode abstraite
 - Optional => Utilisé pour traiter les NPE, fournit des méthodes pour vérifier la présence d'une valeur
 
-### Java 9 :
+### Java 9
+
 - Jigsaw pour rendre modulaire l'application et réduire la taille sur les env.
 - Méthodes privées dans les interfaces
 - try-with-resources
 - API Flow
 
-### Java 10 :
+### Java 10
+
 - Inférence de type => Utilisation de ar afin de gagner en lisiblité
 
-### Java 11 :
+### Java 11
+
 - Inférence de type pour les paramètres e lambdas => utilisation de var dans les lambdas
 - Nouveau client HTTP compatible avec la version 2 de HTTP
 
