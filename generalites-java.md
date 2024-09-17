@@ -128,10 +128,10 @@ Pour sérialiser un objet, on utilise l'interface Serializable.
 
 ## Equals/Hashcode
 
-Ce sont 2 méthodes de classe d'objet. Tous les objets sont des Object.
-Deux objets égaux doivent présenter le même hashcode
-Si 2 objets identique avec un hashcode différent alors on aura des "doublons" dans un Set
-Si equals n'est pas défini, on compare les adresses avec ==
+- Ce sont 2 méthodes de classe d'objet. Tous les objets sont des Object.
+- Deux objets égaux doivent présenter le même hashcode. Le hash code est la valeur de hachage de l'objet en question.
+- Si 2 objets identique avec un hashcode différent alors on aura des "doublons" dans un Set
+- Si equals n'est pas défini, on compare les adresses avec ==
 
 ## Final/Static
 
