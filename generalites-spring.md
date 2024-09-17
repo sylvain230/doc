@@ -44,8 +44,13 @@
 ## Spring boot
 
 - C'est un framework de dév. Java, une déclinaison du framework Spring classique qui permet essentiellement de faire des micro services.
-Avantages => Optimisation de la gestion des dépendances, auto-configuration avec @SpringBootApplication, gestion des properties et déploiement facile
-Le serveur est fourni
+- Dans Spring boot, tout est @Bean et à base de conf.
+- Avantages => Optimisation de la gestion des dépendances, auto-configuration avec @SpringBootApplication, gestion des properties et déploiement facile
+- Le serveur est fourni
+- Annotations pour faire des controllers : @RestController, @RequestMapping, @GetMapping
+- @Repository
+- @Service
+- Facilité pour séparer en 3 couches : Controller -> Service -> Repository
 
 ## Annotation pour injecter une dépendance
 Il existe 4 types d’injections de dépendances :
