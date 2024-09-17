@@ -63,9 +63,9 @@ Pas de risque d'effet de bord à utiliser ces fonctions. Elles peuvent être rej
 
 ## List/Set/Map
 
-List = Doublons possibles et garde l'ordre avec index
-Set = pas de doublon, pas d'ordre
-Dans un Map, on a 2 objets par entrée, une clé et une valeur et on peut avoir des doublons mais les clés restent toujours uniques.
+- List = Doublons possibles et garde l'ordre avec index
+- Set = pas de doublon, pas d'ordre
+- Dans un Map, on a 2 objets par entrée, une clé et une valeur et on peut avoir des doublons mais les clés restent toujours uniques.
 
 ## Méthode filter()
 
