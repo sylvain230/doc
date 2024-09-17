@@ -28,6 +28,15 @@
 
 ## Dernière version de Java
 
+Dernière version LTS (Long Time Support) => 21
+
+## Record Patterns
+## Pattern Matching for switch
+## String Literal
+## Virtual Threads
+## Sequenced Collections
+## Key Encapsulation Mechanism API
+
 ### Java 22
 
 - Variables non nommées
