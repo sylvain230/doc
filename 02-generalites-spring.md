@@ -36,6 +36,7 @@
 
 ## Scope
 
+La portée du bean
 @Singleton est le scope par défaut dans Spring. Une seule instance de l'objet est créée et réutilisée.
 @Prototype => Différentes instances sont créées à chaque appel du bean.
 @Request
