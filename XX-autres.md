@@ -1,7 +1,7 @@
 ## JDK vs JRE
 
 - JDK (Java Developement kIt) est utilisée pour effectuer des développements Java
-- JRE (Java Runtime Exception) est utilisée pour exécuter des programmes Java
+- JRE (Java Runtime Environment) est utilisée pour exécuter des programmes Java
 
 La JVM est un environnement d'exécution pour des applications Java.
 
