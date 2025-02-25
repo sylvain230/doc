@@ -3,8 +3,8 @@
 
 ## SQL
 
-Structured Query Language
-C'est un langage de programmation pour effectuer des tâches sur des données.
+- Structured Query Language
+- C'est un langage de programmation pour effectuer des tâches sur des données.
 
 ## SGBD
 
@@ -13,8 +13,8 @@ C'est un langage de programmation pour effectuer des tâches sur des données.
 
 ## SGBDR
 
-C'est un système de gestion de base de données relationnelles
-C'est utilisé pour stocker les données dans une ou des tables relationnelles avec des lignes et des colonnes.
+- C'est un système de gestion de base de données relationnelles
+- C'est utilisé pour stocker les données dans une ou des tables relationnelles avec des lignes et des colonnes.
 
 ## Principaux SGBDR
 
@@ -36,20 +36,20 @@ La clause JOIN combine les colonnes d’au moins deux tables avec des valeurs as
 
 ##  À quoi servent les index ?
 
-Un index SQL stocke des sections importantes d’une table de base de données pour permettre une recherche rapide et efficace. 
-Plutôt que d’effectuer une recherche dans toute la base de data, les utilisateurs n’ont qu’à consulter l’index lors de la récupération des data. 
-Les index contribuent donc à améliorer les performances d’un SGBDR.
+- Un index SQL stocke des sections importantes d’une table de base de données pour permettre une recherche rapide et efficace. 
+- Plutôt que d’effectuer une recherche dans toute la base de data, les utilisateurs n’ont qu’à consulter l’index lors de la récupération des data. 
+- Les index contribuent donc à améliorer les performances d’un SGBDR.
 
 ##  Comment créer un index avec SQL ?
 
-La syntaxe de création d’un index peut varier en fonction du SGBDR. 
-Dans la plupart des systèmes, l’instruction CREATE INDEX est utilisée pour lancer le processus. 
-L’utilisateur est ensuite invité à attribuer un nom à l’index et à sélectionner les colonnes qui le constitueront.
+- La syntaxe de création d’un index peut varier en fonction du SGBDR. 
+- Dans la plupart des systèmes, l’instruction CREATE INDEX est utilisée pour lancer le processus. 
+- L’utilisateur est ensuite invité à attribuer un nom à l’index et à sélectionner les colonnes qui le constitueront.
 
 ## Qu'est-ce qu'une contrainte et pourquoi l'utiliser ?
 
-Ensemble de conditions définissant le type de données pouvant être introduites dans chaque colonne d'un tableau.
-Les contraintes garantissent l'intégrité des données dans un tableau et bloquent les actions indésirables.
+- Ensemble de conditions définissant le type de données pouvant être introduites dans chaque colonne d'un tableau.
+- Les contraintes garantissent l'intégrité des données dans un tableau et bloquent les actions indésirables.
 
 ## Quelles contraintes SQL connaissez-vous ?
 
