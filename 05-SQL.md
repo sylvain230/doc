@@ -77,3 +77,5 @@ RENAME COLUMN old_column_name TO new_column_name;
 
 ALTER TABLE table_name
 DROP COLUMN column_name;
+
+## Qu'est ce qu'une procédure stockée ?
