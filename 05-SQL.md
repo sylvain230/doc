@@ -3,6 +3,7 @@
 
 ## SQL
 
+Structured Query Language
 C'est un langage de programmation pour effectuer des tâches sur des données.
 
 ## SGBD
