@@ -75,3 +75,55 @@ Utiliser des bibliothèques comme Axios ou Fetch pour faire des appels API. Les 
 #### Gestion des appels synchrones
 
 Utiliser async/await pour gérer les appels API asynchrones et gérer les erreurs avec des blocs try/catch.
+
+### Exemple de code
+
+```
+<!-- Template du composant -->
+<template>
+  <div>
+    <h1>Liste de tâches</h1>
+    <ul>
+      <li v-for="task in tasks" :key="task.id">{{ task.text }}</li>
+    </ul>
+    <input v-model="newTask" @keyup.enter="addTask" placeholder="Ajouter une nouvelle tâche" />
+    <button @click="addTask">Ajouter</button>
+  </div>
+</template>
+
+<script>
+export default {
+  data() {
+    return {
+      tasks: [
+        { id: 1, text: 'Apprendre Vue.js' },
+        { id: 2, text: 'Construire une application' }
+      ],
+      newTask: ''
+    };
+  },
+  methods: {
+    addTask() {
+      if (this.newTask.trim() !== '') {
+        this.tasks.push({ id: this.tasks.length + 1, text: this.newTask });
+        this.newTask = '';
+      }
+    }
+  }
+};
+</script>
+
+<style scoped>
+/* Styles du composant */
+h1 {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+input {
+  margin-right: 10px;
+}
+button {
+  padding: 5px 10px;
+}
+</style>
+
