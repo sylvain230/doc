@@ -2,6 +2,8 @@
 
 ## Généralités
 
+Dernière version => 3.3.4
+
 ### Différence entre Vue.js et d'autres frameworks
 
 Vue.js est un framework JavaScript progressif qui se concentre sur la construction d'interfaces utilisateur. 
