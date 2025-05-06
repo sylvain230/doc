@@ -57,12 +57,13 @@ Les state contiennent les données, les getters sont des fonctions pour accéder
 
 state pour les données, getters pour accéder aux données, mutations pour modifier l'état, et actions pour les opérations asynchrones.
 
-#### Optimisation et performance
+### Optimisation et performance
 
-### Bonnes pratiques
+#### Bonnes pratiques
+
 Utiliser des composants fonctionnels pour les composants stateless, éviter les rendus inutiles avec v-once, et utiliser des techniques de lazy loading pour charger les composants à la demande.
 
-### Slots et mixins
+#### Slots et mixins
 
 Les slots permettent de passer du contenu dynamique aux composants enfants, tandis que les mixins permettent de réutiliser des morceaux de logique dans plusieurs composants.
 
