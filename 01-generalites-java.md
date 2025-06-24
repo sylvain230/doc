@@ -25,6 +25,26 @@
 
 - Inférence de type pour les paramètres e lambdas => utilisation de var dans les lambdas
 - Nouveau client HTTP compatible avec la version 2 de HTTP
+- Nouvelles méthodes pour la classe String
+- Exécution simplifiée de programme à fichier unique
+- Nouvelles méthodes dans Files
+
+### Java 17
+
+- Classes scellées (Sealed Classes) :
+  -  Permet de contrôler quelle classe ou interface peuvent étendre ou implémenter une classe ou une interface donnée
+  -  Améliore la sécurité du code, la maintenabilité
+- Pattern Matching pour switch
+- Suppression de lAPI Applet et du Security Mananger
+- Renforcement d l'encapsulation des données
+
+### Java 21
+
+- Virtual Threads : Threads virtuels sont des threads légées qui réduisent considérablement le coût de la concurrence élevée.
+  - Avoir des applications hautement concurrentes sans avoir recour à des paradigmes asynchrones complexes
+- Pattern Matching : Eliminer les if-else if avec instanceof. Dans les classes scellées, le compilateur peut vérifier l'exhaustivité des cas dans un switch, garantissant qu'aucun sous type n'est oublié.
+- Record Patterns : Permet de déstructurer des instances de claees record directement dans le pattern matching
+- Collections séquencées (Sequenced Collections) : Ajout d'une interface unifiée entre Set et List pour gérer l'ordre, accéder aux premiers et derniers éléments (SequencedCollection, SequencedSet ...)
 
 ## Dernière version de Java
 
