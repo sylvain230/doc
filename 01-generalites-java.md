@@ -25,7 +25,7 @@
 
 - Inférence de type pour les paramètres de lambdas => utilisation de var dans les lambdas
 <details>
-  <summary>Cliquez ici pour voir l'exemple de code Java</summary>
+  <summary>Exemple</summary>
   
 ```java
 import java.util.Arrays;
@@ -78,7 +78,7 @@ public class VarInLambdaExample {
 - Nouveau client HTTP compatible avec la version 2 de HTTP
 - Nouvelles méthodes pour la classe String
 <details>
-  <summary>Cliquez ici pour voir l'exemple de code Java</summary>
+  <summary>Exemple</summary>
   
 ```java
   
@@ -458,7 +458,7 @@ public class SealedClassSwitchExample {
 - Renforcement de l'encapsulation des données
 
 <details>
-  <summary>Exemple 2 : avec des classes scellées</summary>
+  <summary>Exemple</summary>
   
 ```java
 
