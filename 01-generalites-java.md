@@ -23,20 +23,460 @@
 
 ### Java 11 (LTS)
 
-- Inférence de type pour les paramètres e lambdas => utilisation de var dans les lambdas
+- Inférence de type pour les paramètres de lambdas => utilisation de var dans les lambdas
+<details>
+  <summary>Cliquez ici pour voir l'exemple de code Java</summary>
+  
+```java
+import java.util.Arrays;
+import java.util.List;
+import java.util.function.BiConsumer;
+import java.util.function.Consumer;
+import java.util.function.Predicate;
+import javax.validation.constraints.NotNull; // Exemple d'annotation
+
+public class VarInLambdaExample {
+
+    public static void main(String[] args) {
+
+        // --- Exemple 1: Cas simple sans annotation ---
+        // Avant Java 11, il fallait spécifier le type si on voulait une inférence forte
+        // Consumer<String> printer = (String s) -> System.out.println(s.toUpperCase());
+        // Avec 'var', le type est inféré
+        Consumer<String> printer = (var s) -> System.out.println(s.toUpperCase());
+        printer.accept("hello world");
+
+
+        // --- Exemple 2: Utilisation de 'var' avec plusieurs paramètres ---
+        // Le type des deux paramètres est inféré à partir de BiConsumer<String, Integer>
+        BiConsumer<String, Integer> logger = (var message, var level) ->
+            System.out.println("Log: " + message + " (Level: " + level + ")");
+        logger.accept("Application started", 1);
+
+
+        // --- Exemple 3: Le cas le plus utile - 'var' avec des annotations ---
+        // Imaginez que @NotNull est une annotation de validation personnalisée
+        // Avant Java 11, si vous vouliez annoter le paramètre, vous deviez spécifier le type :
+        // Predicate<String> isNotNullAndNotEmptyOld = (@NotNull String s) -> s != null && !s.isEmpty();
+        // Avec 'var', le type est inféré et vous pouvez toujours annoter :
+        Predicate<String> isNotNullAndNotEmpty = (@NotNull var s) -> s != null && !s.isEmpty();
+
+        System.out.println("Is 'hello' not null and not empty? " + isNotNullAndNotEmpty.test("hello"));
+        System.out.println("Is '' not null and not empty? " + isNotNullAndNotEmpty.test(""));
+        System.out.println("Is null not null and not empty? " + isNotNullAndNotEmpty.test(null)); // Peut lancer une exception si @NotNull est activement validée
+
+
+        // --- Exemple 4: Itération avec 'var' dans un forEach (bien que ce ne soit pas une lambda directe) ---
+        // Juste pour montrer la cohérence de 'var' dans les contextes où l'inférence de type est utilisée
+        List<String> names = Arrays.asList("Alice", "Bob", "Charlie");
+        names.forEach((var name) -> System.out.println("Name: " + name));
+    }
+}
+```
+</details>
+
 - Nouveau client HTTP compatible avec la version 2 de HTTP
 - Nouvelles méthodes pour la classe String
+<details>
+  <summary>Cliquez ici pour voir l'exemple de code Java</summary>
+  
+```java
+  
+"  ".isBlank();    // true
+"".isBlank();     // true
+"hello".isBlank(); // false
+"  \t\n".isBlank(); // true
+
+
+String multiLineText = "Ligne 1\nLigne 2\r\nLigne 3";
+multiLineText.lines()
+             .forEach(System.out::println);
+// Output:
+// Ligne 1
+// Ligne 2
+// Ligne 3
+
+String s1 = "  Hello World  ";
+System.out.println(s1.strip()); // "Hello World"
+
+// Caractère d'espacement Unicode (non supprimé par trim())
+String s2 = "\u2005 Hello \u2005"; // U+2005 est un espace "Four-per-em space"
+System.out.println("Trimmed: '" + s2.trim() + "'");   // "Trimmed: ' Hello '"
+System.out.println("Stripped: '" + s2.strip() + "'"); // "Stripped: 'Hello'"
+```
+</details>
+
 - Exécution simplifiée de programme à fichier unique
 - Nouvelles méthodes dans Files
+<details>
+  <summary>Cliquez ici pour voir l'exemple de code Java</summary>
+  
+```java
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+public class ReadFileToStringExample {
+
+    public static void main(String[] args) {
+        Path filePath = Paths.get("monFichier.txt");
+
+        try {
+            // Créer un fichier temporaire pour l'exemple
+            Files.writeString(filePath, "Ceci est la première ligne.\n" +
+                                       "Ceci est la deuxième ligne.");
+
+            // Lire le contenu du fichier en tant que String (UTF-8 par défaut)
+            String content = Files.readString(filePath);
+            System.out.println("Contenu du fichier (UTF-8 par défaut):");
+            System.out.println(content);
+
+            // Lire le contenu du fichier avec un encodage spécifique (par exemple, ISO-8859-1)
+            Path anotherFilePath = Paths.get("monFichierLatin1.txt");
+            String latin1Content = "Caractères accentués: éàçü";
+            Files.writeString(anotherFilePath, latin1Content, StandardCharsets.ISO_8859_1);
+
+            String readLatin1Content = Files.readString(anotherFilePath, StandardCharsets.ISO_8859_1);
+            System.out.println("\nContenu du fichier (ISO-8859-1):");
+            System.out.println(readLatin1Content);
+
+            // Supprimer les fichiers temporaires
+            Files.delete(filePath);
+            Files.delete(anotherFilePath);
+
+        } catch (IOException e) {
+            System.err.println("Erreur lors de la lecture du fichier: " + e.getMessage());
+        }
+    }
+}
+```
+</details>
 
 ### Java 17 (LTS)
 
 - Classes scellées (Sealed Classes) :
   -  Permet de contrôler quelle classe ou interface peuvent étendre ou implémenter une classe ou une interface donnée
   -  Améliore la sécurité du code, la maintenabilité
+
+<details>
+  <summary>Exemple 1</summary>
+  
+```java 
+
+// Classe abstraite scellée représentant une forme
+public sealed abstract class Shape permits Circle, Rectangle, Triangle {
+    // Méthodes communes aux formes
+    public abstract double area();
+}
+
+// Sous-classe finale : ne peut pas être étendue
+public final class Circle extends Shape {
+    private final double radius;
+
+    public Circle(double radius) {
+        this.radius = radius;
+    }
+
+    @Override
+    public double area() {
+        return Math.PI * radius * radius;
+    }
+}
+
+// Sous-classe non-scellée : peut être étendue par n'importe quelle classe
+public non-sealed class Rectangle extends Shape {
+    private final double width;
+    private final double height;
+
+    public Rectangle(double width, double height) {
+        this.width = width;
+        this.height = height;
+    }
+
+    @Override
+    public double area() {
+        return width * height;
+    }
+}
+
+// Sous-classe scellée : elle-même restreint ses sous-types
+public sealed class Triangle extends Shape permits EquilateralTriangle, IsoscelesTriangle {
+    private final double base;
+    private final double height;
+
+    public Triangle(double base, double height) {
+        this.base = base;
+        this.height = height;
+    }
+
+    @Override
+    public double area() {
+        return 0.5 * base * height;
+    }
+}
+
+// Sous-classe finale du Triangle scellé
+public final class EquilateralTriangle extends Triangle {
+    // ... constructeur et méthodes spécifiques
+    public EquilateralTriangle(double side) {
+        super(side, side * Math.sqrt(3) / 2); // Calcul de la hauteur pour un triangle équilatéral
+    }
+}
+
+// Une autre sous-classe finale du Triangle scellé
+public final class IsoscelesTriangle extends Triangle {
+    // ... constructeur et méthodes spécifiques
+    public IsoscelesTriangle(double base, double height) {
+        super(base, height);
+    }
+}
+
+// Utilisation (par exemple, avec le Pattern Matching dans les switch, une fonctionnalité complémentaire)
+public class ShapeProcessor {
+    public static void processShape(Shape shape) {
+        // Avec Java 17+, les classes scellées peuvent être utilisées avec le pattern matching for switch,
+        // ce qui permet au compilateur de garantir l'exhaustivité des cas.
+        String description = switch (shape) {
+            case Circle c -> "Cercle de rayon " + c.radius;
+            case Rectangle r -> "Rectangle de " + r.width + "x" + r.height;
+            case Triangle t -> "Triangle de base " + t.base + " et hauteur " + t.height;
+            // Pas besoin de 'default' si tous les types permis sont couverts et si le switch est exhaustif
+        };
+        System.out.println(description);
+    }
+
+    public static void main(String[] args) {
+        processShape(new Circle(5));
+        processShape(new Rectangle(4, 6));
+        processShape(new EquilateralTriangle(7));
+    }
+}
+
+```
+
+</details>
+
+<details>
+  <summary>Exemple 2</summary>
+  
+```java
+
+// Interface scellée pour un type de message dans un système
+public sealed interface Message permits TextMessage, ImageMessage, ErrorMessage {
+    String getSender();
+}
+
+// Implémentation finale
+public final class TextMessage implements Message {
+    private final String sender;
+    private final String content;
+
+    public TextMessage(String sender, String content) {
+        this.sender = sender;
+        this.content = content;
+    }
+
+    @Override
+    public String getSender() { return sender; }
+    public String getContent() { return content; }
+}
+
+// Implémentation non-scellée
+public non-sealed class ImageMessage implements Message {
+    private final String sender;
+    private final byte[] imageData;
+
+    public ImageMessage(String sender, byte[] imageData) {
+        this.sender = sender;
+        this.imageData = imageData;
+    }
+
+    @Override
+    public String getSender() { return sender; }
+    public byte[] getImageData() { return imageData; }
+    // Cette classe peut être étendue par d'autres classes comme JpegImageMessage, PngImageMessage, etc.
+}
+
+// Implémentation finale
+public final class ErrorMessage implements Message {
+    private final String sender;
+    private final String errorCode;
+
+    public ErrorMessage(String sender, String errorCode) {
+        this.sender = sender;
+        this.errorCode = errorCode;
+    }
+
+    @Override
+    public String getSender() { return sender; }
+    public String getErrorCode() { return errorCode; }
+}
+
+public class MessageProcessor {
+    public static void processMessage(Message message) {
+        String info = switch (message) {
+            case TextMessage tm -> "Texte de " + tm.getSender() + ": " + tm.getContent();
+            case ImageMessage im -> "Image de " + im.getSender() + " (" + im.getImageData().length + " bytes)";
+            case ErrorMessage em -> "Erreur de " + em.getSender() + " (Code: " + em.getErrorCode() + ")";
+        };
+        System.out.println(info);
+    }
+
+    public static void main(String[] args) {
+        processMessage(new TextMessage("Alice", "Salut tout le monde !"));
+        processMessage(new ErrorMessage("System", "CODE_001"));
+    }
+}
+
+```
+
+</details>
+
 - Pattern Matching pour switch
-- Suppression de lAPI Applet et du Security Mananger
-- Renforcement d l'encapsulation des données
+
+<details>
+  <summary>Exemple 1 : simple</summary>
+
+```java
+
+// Ancien style avec if-else if et instanceof
+public String processLegacyObject(Object o) {
+    if (o instanceof Integer) {
+        Integer i = (Integer) o; // Cast nécessaire
+        return "C'est un entier : " + i;
+    } else if (o instanceof String) {
+        String s = (String) o; // Cast nécessaire
+        return "C'est une chaîne : " + s.toUpperCase();
+    } else if (o instanceof Double) {
+        Double d = (Double) o; // Cast nécessaire
+        return "C'est un double : " + d * 2;
+    } else {
+        return "Type inconnu";
+    }
+}
+
+public class NewSwitchExample {
+
+    // Méthode avec Pattern Matching for switch (Java 17+)
+    public String processObject(Object o) {
+        return switch (o) {
+            case Integer i -> "C'est un entier : " + i; // 'i' est automatiquement de type Integer
+            case String s  -> "C'est une chaîne : " + s.toUpperCase(); // 's' est automatiquement de type String
+            case Double d  -> "C'est un double : " + d * 2; // 'd' est automatiquement de type Double
+            case null      -> "C'est null"; // Gestion explicite de null (Java 17+)
+            default        -> "Type inconnu";
+        };
+    }
+
+    public static void main(String[] args) {
+        NewSwitchExample example = new NewSwitchExample();
+
+        System.out.println(example.processObject(10));
+        System.out.println(example.processObject("bonjour"));
+        System.out.println(example.processObject(5.5));
+        System.out.println(example.processObject(true)); // Type inconnu
+        System.out.println(example.processObject(null)); // C'est null
+    }
+}
+
+```
+
+</details>
+
+<details>
+  <summary>Exemple 2 : avec des classes scellées</summary>
+
+```java
+
+// La classe scellée Shape (dupliquée ici pour un exemple autonome)
+public sealed abstract class Shape permits Circle, Rectangle, Triangle {}
+
+public final class Circle extends Shape {
+    final double radius;
+    public Circle(double radius) { this.radius = radius; }
+    public double area() { return Math.PI * radius * radius; }
+}
+
+public non-sealed class Rectangle extends Shape {
+    final double width;
+    final double height;
+    public Rectangle(double width, double height) { this.width = width; this.height = height; }
+    public double area() { return width * height; }
+}
+
+public sealed class Triangle extends Shape permits EquilateralTriangle, IsoscelesTriangle {
+    final double base;
+    final double height;
+    public Triangle(double base, double height) { this.base = base; this.height = height; }
+    public double area() { return 0.5 * base * height; }
+}
+
+public final class EquilateralTriangle extends Triangle {
+    public EquilateralTriangle(double side) { super(side, side * Math.sqrt(3) / 2); }
+}
+
+public final class IsoscelesTriangle extends Triangle {
+    public IsoscelesTriangle(double base, double height) { super(base, height); }
+}
+
+
+public class SealedClassSwitchExample {
+
+    public String getDescription(Shape shape) {
+        // Le compilateur sait que Circle, Rectangle, et Triangle sont les seuls sous-types directs
+        // Donc, pas besoin de 'default' si tous sont couverts.
+        return switch (shape) {
+            case Circle c -> "Cercle de rayon " + c.radius + " et aire " + c.area();
+            case Rectangle r -> "Rectangle de " + r.width + "x" + r.height + " et aire " + r.area();
+            // Pour Triangle, nous pouvons traiter ses sous-types scellés séparément
+            case EquilateralTriangle et -> "Triangle équilatéral et aire " + et.area();
+            case IsoscelesTriangle it -> "Triangle isocèle et aire " + it.area();
+            // Note: Si nous avions juste 'case Triangle t -> ...', cela couvrirait aussi les sous-types
+            // Mais ici, nous voulons un traitement spécifique pour les sous-types de Triangle.
+            // Si Triangle était 'non-sealed', il faudrait un 'default' si ses sous-types n'étaient pas gérés.
+        };
+    }
+
+    public static void main(String[] args) {
+        SealedClassSwitchExample example = new SealedClassSwitchExample();
+
+        System.out.println(example.getDescription(new Circle(5)));
+        System.out.println(example.getDescription(new Rectangle(4, 6)));
+        System.out.println(example.getDescription(new EquilateralTriangle(7)));
+        System.out.println(example.getDescription(new IsoscelesTriangle(3, 4)));
+    }
+}
+
+```
+
+</details>
+
+- Suppression de l'API Applet et du Security Mananger
+- Renforcement de l'encapsulation des données
+
+<details>
+  <summary>Exemple 2 : avec des classes scellées</summary>
+  
+```java
+
+// Seules Circle, Rectangle et Triangle peuvent étendre Shape
+public sealed interface Shape permits Circle, Rectangle, Triangle {
+    double area();
+}
+
+public final class Circle implements Shape { /* ... */ }
+public final class Rectangle implements Shape { /* ... */ }
+public final class Triangle implements Shape { /* ... */ }
+
+// Si une classe en dehors de 'permits' tente d'implémenter Shape, le compilateur refusera.
+// public class Pentagon implements Shape { /* ... ERREUR DE COMPILATION */ }
+
+```
+
+</details>
 
 ### Java 21 (LTS)
 
