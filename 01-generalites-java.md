@@ -482,8 +482,224 @@ public final class Triangle implements Shape { /* ... */ }
 
 - Virtual Threads : Threads virtuels sont des threads légées qui réduisent considérablement le coût de la concurrence élevée.
   - Avoir des applications hautement concurrentes sans avoir recour à des paradigmes asynchrones complexes
+
+ <details>
+  <summary>Créer un Virtual Thread simple</summary>
+   
+```java
+
+import java.time.Duration;
+import java.util.concurrent.Executors;
+import java.util.stream.IntStream;
+
+public class SimpleVirtualThreadExample {
+
+    public static void main(String[] args) throws InterruptedException {
+        System.out.println("Démarrage du programme principal avec Virtual Threads.");
+
+        // Créer et démarrer un Virtual Thread
+        Thread.ofVirtual().start(() -> {
+            System.out.println("Bonjour depuis un Virtual Thread !");
+            try {
+                Thread.sleep(Duration.ofSeconds(1)); // Pause le Virtual Thread, pas le Thread de plateforme
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+            System.out.println("Virtual Thread a terminé son exécution.");
+        });
+
+        // Le programme principal continue son exécution
+        System.out.println("Le programme principal continue...");
+
+        // Attendre un peu pour que le virtual thread ait le temps de s'exécuter
+        Thread.sleep(Duration.ofSeconds(2));
+        System.out.println("Fin du programme principal.");
+    }
+}
+
+```
+
+</details>
+
+ <details>
+  <summary>Utilisation d'un ExecutorService pour Virtual Threads</summary>
+   
+```java
+
+import java.time.Duration;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
+
+public class VirtualThreadExecutorExample {
+
+    public static void main(String[] args) throws InterruptedException {
+        System.out.println("Démarrage du programme avec Virtual Thread Executor.");
+
+        // Créer un ExecutorService qui démarre un nouveau Virtual Thread pour chaque tâche
+        try (ExecutorService executor = Executors.newVirtualThreadPerTaskExecutor()) {
+
+            IntStream.range(0, 10).forEach(i -> {
+                executor.submit(() -> {
+                    System.out.println("Tâche " + i + " exécutée par Virtual Thread: " + Thread.currentThread());
+                    try {
+                        Thread.sleep(Duration.ofMillis(100)); // Simule un travail I/O bloquant
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                    }
+                });
+            });
+
+            // L'ExecutorService se fermera automatiquement à la sortie du bloc try-with-resources
+            // Ou vous pouvez l'arrêter manuellement et attendre sa terminaison :
+            // executor.shutdown();
+            // executor.awaitTermination(1, TimeUnit.MINUTES);
+
+        } // Le bloc try-with-resources assure que executor.shutdown() est appelé
+
+        System.out.println("Toutes les tâches soumises. Le programme principal va se terminer.");
+        // Attendre un peu pour s'assurer que les messages des Virtual Threads s'affichent
+        Thread.sleep(Duration.ofSeconds(1));
+    }
+}
+
+```
+
+</details>
+
+ <details>
+  <summary>Comparaison avec les Platform Threads (pour illustrer la scalabilité)</summary>
+   
+```java
+
+import java.time.Duration;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
+import java.util.stream.IntStream;
+
+public class ScaleComparisonExample {
+
+    private static void performBlockingOperation(int taskId) {
+        System.out.println("Démarrage tâche " + taskId + " sur Thread: " + Thread.currentThread());
+        try {
+            Thread.sleep(Duration.ofMillis(100)); // Simule une opération I/O bloquante
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
+        }
+        System.out.println("Fin tâche " + taskId);
+    }
+
+    public static void main(String[] args) throws InterruptedException {
+        final int numberOfTasks = 50_000; // Essayez avec 1000 pour Platform Threads vs 50000+ pour Virtual Threads
+
+        System.out.println("--- Démarrage avec Virtual Threads ---");
+        long startTimeVirtual = System.currentTimeMillis();
+        try (ExecutorService virtualExecutor = Executors.newVirtualThreadPerTaskExecutor()) {
+            IntStream.range(0, numberOfTasks).forEach(i -> {
+                virtualExecutor.submit(() -> performBlockingOperation(i));
+            });
+        }
+        long endTimeVirtual = System.currentTimeMillis();
+        System.out.println("Temps écoulé avec Virtual Threads: " + (endTimeVirtual - startTimeVirtual) + " ms");
+        System.out.println("Nombre de tâches: " + numberOfTasks);
+
+
+        // Attention : Exécuter ceci avec un grand nombre de tâches peut faire planter votre JVM
+        // ou la rendre très lente si le nombre est trop élevé pour vos ressources système.
+        // Décommentez pour tester, mais commencez avec un nombre beaucoup plus petit (ex: 1000-2000).
+        /*
+        System.out.println("\n--- Démarrage avec Platform Threads (attention aux ressources) ---");
+        long startTimePlatform = System.currentTimeMillis();
+        // Un FixedThreadPool avec un petit nombre de threads pour simuler un serveur web
+        try (ExecutorService platformExecutor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors())) {
+            IntStream.range(0, Math.min(numberOfTasks, 2000)).forEach(i -> { // Limiter pour éviter l'épuisement des threads
+                 platformExecutor.submit(() -> performBlockingOperation(i));
+            });
+            platformExecutor.shutdown();
+            platformExecutor.awaitTermination(5, TimeUnit.MINUTES);
+        }
+        long endTimePlatform = System.currentTimeMillis();
+        System.out.println("Temps écoulé avec Platform Threads: " + (endTimePlatform - startTimePlatform) + " ms");
+        System.out.println("Nombre de tâches: " + Math.min(numberOfTasks, 2000));
+        */
+    }
+}
+
+```
+
+</details>
+
 - Pattern Matching : Eliminer les if-else if avec instanceof. Dans les classes scellées, le compilateur peut vérifier l'exhaustivité des cas dans un switch, garantissant qu'aucun sous type n'est oublié.
 - Record Patterns : Permet de déstructurer des instances de claees record directement dans le pattern matching
+
+</details>
+
+ <details>
+  <summary>Comparaison avec les Platform Threads (pour illustrer la scalabilité)</summary>
+   
+```java
+
+// Définition des records
+public record Point(int x, int y) {}
+public record Circle(Point center, int radius) {}
+public record Rectangle(Point topLeft, Point bottomRight) {}
+
+public class ShapeProcessor {
+
+    public String describeShape(Object shape) {
+        return switch (shape) {
+            case Circle(Point center, int r) -> // Record Pattern pour Circle
+                "Cercle centré en (" + center.x() + ", " + center.y() + ") avec rayon " + r;
+            case Rectangle(Point tl, Point br) -> // Record Pattern pour Rectangle
+                "Rectangle du point (" + tl.x() + ", " + tl.y() + ") au point (" + br.x() + ", " + br.y() + ")";
+            case Point p -> // Pattern de type simple pour Point
+                "Juste un Point en (" + p.x() + ", " + p.y() + ")";
+            default -> "Forme inconnue";
+        };
+    }
+
+    // Exemple avec Record Patterns imbriqués
+    public String describeShapeNested(Object shape) {
+        return switch (shape) {
+            // Décomposition du Circle, et décomposition imbriquée de Point
+            case Circle(Point(int cx, int cy), int r) ->
+                "Cercle centré en (" + cx + ", " + cy + ") avec rayon " + r;
+            // Décomposition du Rectangle, et décomposition imbriquée de Point pour topLeft
+            case Rectangle(Point(int tlx, int tly), Point bottomRight) ->
+                "Rectangle dont le coin supérieur gauche est (" + tlx + ", " + tly + ") " +
+                "et le coin inférieur droit est (" + bottomRight.x() + ", " + bottomRight.y() + ")";
+            default -> "Forme inconnue ou non gérée.";
+        };
+    }
+
+    public static void main(String[] args) {
+        ShapeProcessor processor = new ShapeProcessor();
+
+        System.out.println(processor.describeShape(new Circle(new Point(0, 0), 5)));
+        // Output: Cercle centré en (0, 0) avec rayon 5
+
+        System.out.println(processor.describeShape(new Rectangle(new Point(1, 1), new Point(10, 10))));
+        // Output: Rectangle du point (1, 1) au point (10, 10)
+
+        System.out.println(processor.describeShape(new Point(5, 5)));
+        // Output: Juste un Point en (5, 5)
+
+        System.out.println("\n--- Exemples avec Records imbriqués ---");
+        System.out.println(processor.describeShapeNested(new Circle(new Point(10, 20), 15)));
+        // Output: Cercle centré en (10, 20) avec rayon 15
+
+        System.out.println(processor.describeShapeNested(new Rectangle(new Point(0, 0), new Point(5, 5))));
+        // Output: Rectangle dont le coin supérieur gauche est (0, 0) et le coin inférieur droit est (5, 5)
+    }
+}
+
+
+```
+
+</details>
+
 - Collections séquencées (Sequenced Collections) : Ajout d'une interface unifiée entre Set et List pour gérer l'ordre, accéder aux premiers et derniers éléments (SequencedCollection, SequencedSet ...)
 
 ### Java 25 (LTS) prévu pour septembre 2025
