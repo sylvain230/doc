@@ -721,6 +721,11 @@ Java 8 et JST355 introduisent les bases du fonctionnel dans Java.
 Le résultat de traitements est décrit mais pas la façon dont ils sont réalisés.
 @FunctionalInterface pour créer une interface fonctionelle. Celle-ci possède une seule méthode abstraite.
 
+La programmation fonctionnelle est un paradigme de programmation qui traite le calcul comme l'évaluation de fonctions mahématiques et évite de modifier les états et les données mutables.
+C'est une approche déclarative, ce qui signifie que l'on se concentre sur ce que l'on veut faire plutôt que sur le comment, contrairement à la programmation impérative.
+
+Un paradigme de programmation est une manière fondamentale de conceptualiser et d'organiser la construction de programmes informatiques, un peu comme une philosophie.
+
 Les 4 conceps de la PF sont :
 
 - La pureté : Une fontion pure, au sens mathématique, est une fonction qui ne change pas l'état du monde
@@ -728,6 +733,14 @@ Les 4 conceps de la PF sont :
   En java, nous utiliserons le mot clé final.
 - L'expressivité : Cela correspond à l'utilisation de fonctions d'ordre supérieur, c'es à dire ds fonctions qui prendront d'autres fonctions en paramètre.
 - Composabilité : Il s'agit de la capacité à composer des fonctions ensemble pour obtenir une autre fonction.
+
+Voici les concepts de Java 8 permettant de mettre en place ce type de programmation :
+- Expressions Lambda
+- Interfaces fonctionnelles
+- Stream API
+- Méthodes de références
+- Les records (depuis Java 16)
+- Pattern Matching for switch
 
 ## Fonction dite pure
 
