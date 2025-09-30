@@ -57,3 +57,55 @@ Avantages :
   - Facilite le débogage
   - Facilité de partage de l’état : En stockant l’état global de l’application dans le store Redux, il devient facile de partager l’état entre différents composants de l’application.
   - Gestion d’état centralisée : On stocke l’état global de l’application dans un seul endroit, appelé “le store”, ce qui nous permet de maintenir une vue d’ensemble de l’état de l’application. C’est plus simple à maintenir, mais aussi à faire évoluer, et le “state” est également plus facilement accessible à tous les composants.
+
+## Les hooks
+
+Les Hooks permettent d'utiliser l'état local (state) et les fonctionnalités du cycle de vie d'un composant de classe à l'intérieur d'un composant fonctionnel (une simple fonction JavaScript).
+	- 1. Appelés uniquement au niveau racine du composant fonctionnel. 
+  - 2. Appelés uniquement depuis des composants fonctionnels (ou d'autres Hooks personnalisés).
+
+### Les Hooks de Base : L'État et les Effets Secondaires
+
+#### useState
+
+Rôle : Permet d'ajouter une variable d'état à un composant fonctionnel.
+
+Syntaxe : const [valeur, setValeur] = useState(valeurInitiale);
+
+Mécanisme : Contrairement à la modification directe d'un champ dans une classe, setValeur déclenche un re-rendu du composant et met à jour la valeur. C'est le point de départ de la réactivité de React.
+
+Parallèle Senior : C'est la façon la plus simple de gérer l'état transitoire (l'équivalent d'une variable de portée locale pour un service Spring, mais au niveau de l'UI).
+
+#### useEffect
+
+Rôle : Gère tout ce qui est considéré comme un effet secondaire après le rendu (appels API, manipulation du DOM, abonnements, timers). Il remplace les trois méthodes principales du cycle de vie des classes (componentDidMount, componentDidUpdate, componentWillUnmount).
+
+Syntaxe : useEffect(() => { /* code à exécuter */ }, [dépendances]);
+
+### Les hooks pour l'architecture globale
+
+#### useContext (Gestion de l'État Simple Global)
+
+Rôle : Permet à un composant de s'abonner à un Contexte (un "canal" de données global) sans avoir à passer les props à chaque niveau de l'arbre (le fameux Prop Drilling).
+
+Impact : Souvent suffisant pour remplacer Redux sur des applications de taille moyenne, ou pour gérer des thèmes, des préférences utilisateur, ou des données d'authentification.
+
+#### useReducer (Gestion d'État Local Complexe)
+
+Rôle : Alternative à useState pour la gestion d'un état local dont les mises à jour dépendent d'un état ou d'une logique complexe (ex: un panier d'achat).
+
+Mécanisme : Il utilise le pattern Action/Reducer de Redux, mais de manière locale au composant.
+
+### Les Hooks d'Optimisation
+
+#### useMemo
+
+Mémorise une valeur calculée (le résultat d'une fonction) pour ne la recalculer que si ses dépendances changent.
+
+#### useCallback
+
+Mémorise une fonction elle-même pour qu'elle ne soit pas recréée à chaque rendu.
+
+#### useRef
+
+Permet de conserver une valeur mutable qui ne déclenche pas de re-rendu lorsque vous la modifiez (pour accéder directement à un élément du DOM ou stocker une référence persistante).
