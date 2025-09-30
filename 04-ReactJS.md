@@ -90,6 +90,17 @@ Rôle : Permet à un composant de s'abonner à un Contexte (un "canal" de donné
 
 Impact : Souvent suffisant pour remplacer Redux sur des applications de taille moyenne, ou pour gérer des thèmes, des préférences utilisateur, ou des données d'authentification.
 
+🥶 Le Piège de la Valeur Périmée (Stale Closure)
+Si vous oubliez d'inclure une variable d'état (par exemple, count) dans le tableau de dépendances, la fonction useCallback capture la valeur de count qui existait au moment du premier rendu.
+
+Rendu Initial : count vaut 0. La fonction est créée et mémorise que count vaut 0.
+
+Rendu 2 : L'utilisateur clique. count passe à 1. Le composant parent se rend.
+
+useCallback : Le tableau de dépendances n'a pas changé, donc la fonction n'est pas recréée.
+
+Le Bug : Lorsque la fonction mémorisée est appelée, elle utilise la valeur capturée (count: 0), et non la nouvelle valeur (count: 1). Le calcul est faux.
+
 #### useReducer (Gestion d'État Local Complexe)
 
 Rôle : Alternative à useState pour la gestion d'un état local dont les mises à jour dépendent d'un état ou d'une logique complexe (ex: un panier d'achat).
@@ -101,6 +112,7 @@ Mécanisme : Il utilise le pattern Action/Reducer de Redux, mais de manière loc
 #### useMemo
 
 Mémorise une valeur calculée (le résultat d'une fonction) pour ne la recalculer que si ses dépendances changent.
+il vérifie si les props du composant enfant ont changé pour décider s'il doit refaire le rendu ou non.
 
 #### useCallback
 
