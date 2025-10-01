@@ -5,7 +5,7 @@ Librairie JavaScript basée sur JS et créée par Facebook. L'objectif de cette 
 
 ## Généralités
 
-### Dernière version de React
+### Dernière version de React => 19
 
 React est une librairie OpenSource Javascript
 
